@@ -15,17 +15,17 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    // 렌더링 설정
+    // Set Rendering
     mRenderWindow->AddRenderer(mRenderer);
     mRenderWindow->SetInteractor(mInteractor);
     ui->openGLWidget->SetRenderWindow(mRenderWindow);
     mInteractor->SetInteractorStyle(mInteractorStyle);
     mInteractor->Initialize();
 
-    // 위젯 배경색 설정
+    // Widget Background
     mRenderer->SetBackground(1, 0, 0);
 
-    // 커넥트 설정
+    // Set Connect
     QObject::connect(ui->drawSphere_button, &QPushButton::clicked, this, &MainWindow::onDrawSphereClick);
 }
 
@@ -36,13 +36,13 @@ MainWindow::~MainWindow()
 
 void MainWindow::onDrawSphereClick()
 {
-    // 구 만들기
+    // Make Sphere
     vtkSmartPointer<vtkSphereSource> sphereSource =
         vtkSmartPointer<vtkSphereSource>::New();
     sphereSource->SetRadius(5);
     sphereSource->Update();
 
-    // 구가 렌더링 되는 액터 만들기
+    // Sphere Rendering Actor
     vtkSmartPointer<vtkPolyDataMapper> sphereMapper =
         vtkSmartPointer<vtkPolyDataMapper>::New();
     sphereMapper->SetInputData(sphereSource->GetOutput());
@@ -50,7 +50,7 @@ void MainWindow::onDrawSphereClick()
     vtkSmartPointer<vtkActor> sphere = vtkSmartPointer<vtkActor>::New();
     sphere->SetMapper(sphereMapper);
     
-    // OpenGL에 구 추가
+    // OpenGL added Sphere
     mRenderer->AddViewProp(sphere);
     mRenderer->ResetCamera();
     mRenderWindow->Render();
